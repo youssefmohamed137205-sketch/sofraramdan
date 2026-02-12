@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سفرة رمضان - خلّي رمضان السنة دي مختلف تماماً</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;800;900&family=Lateef:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4A843;
+            --gold-light: #F0CB6E;
+            --dark-gold: #9A7520;
+            --teal: #1A6B6B;
+            --teal-light: #2E9E9E;
+            --night: #060E1C;
+            --deep: #0C1A2E;
+            --cream: #FDF6E3;
+            --text-light: #F5EDD8;
+            --emerald: #2D7A5E;
+            --red: #FF4757;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--night);
+            color: var(--text-light);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Stars Canvas */
+        #stars-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Islamic Pattern Background */
+        .pattern-bg {
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(212,168,67,0.04)' stroke-width='0.8'%3E%3Cpolygon points='40,4 62,16 62,40 62,64 40,76 18,64 18,16'/%3E%3Cpolygon points='40,12 56,20 56,40 56,60 40,68 24,60 24,20'/%3E%3Cline x1='40' y1='4' x2='40' y2='76'/%3E%3Cline x1='18' y1='16' x2='62' y2='64'/%3E%3Cline x1='62' y1='16' x2='18' y2='64'/%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            background: linear-gradient(135deg, rgba(26,107,107,0.3) 0%, rgba(12,26,46,0.8) 100%);
+            padding: 1.5rem 2rem;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212,168,67,0.2);
+            z-index: 10;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Lateef', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(212,168,67,0.6);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .crescent-icon {
+            font-size: 2.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            padding: 3rem 2rem;
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 70% 60% at 50% 40%, rgba(26,107,107,0.35) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 30% at 50% 100%, rgba(212,168,67,0.18) 0%, transparent 60%);
+            z-index: 0;
+        }
+
+        /* Crescent moon SVG ornament */
+        .crescent-large {
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 320px;
+            opacity: 0.12;
+            animation: moonFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes moonFloat {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(20px) rotate(0deg); }
+        }
+
+        /* Lanterns */
+        .lantern-left, .lantern-right {
+            position: absolute;
+            top: 0;
+            width: 90px;
+            opacity: 0;
+            animation: lanternDrop 1.2s ease forwards;
+        }
+        .lantern-left { left: 4%; animation-delay: 0.4s; }
+        .lantern-right { right: 4%; animation-delay: 0.7s; transform: scaleX(-1); }
+
+        @keyframes lanternDrop {
+            from { opacity: 0; transform: translateY(-60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            text-align: right;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--red), #C92A3A);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.9s ease 0.2s forwards, pulse 2s ease-in-out 1s infinite;
+            box-shadow: 0 4px 20px rgba(255,71,87,0.4);
+        }
+
+        .hero-title {
+            font-family: 'Lateef', serif;
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--gold);
+            text-shadow:
+                0 0 60px rgba(212,168,67,0.6),
+                0 0 120px rgba(212,168,67,0.3);
+            position: relative;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.4s forwards;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(1.3rem, 3.5vw, 2rem);
+            font-weight: 700;
+            color: white;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.6s forwards;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .hero-pain {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            opacity: 0;
+            line-height: 1.9;
+            animation: fadeUp 1s ease 0.8s forwards;
+            margin-bottom: 2rem;
+            background: rgba(255,71,87,0.1);
+            border-right: 3px solid var(--red);
+            padding: 1.2rem 1.5rem;
+            border-radius: 10px;
+        }
+
+        .hero-solution {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(1rem, 2.2vw, 1.15rem);
+            font-weight: 500;
+            color: var(--text-light);
+            opacity: 0;
+            line-height: 2;
+            animation: fadeUp 1s ease 1s forwards;
+            margin-bottom: 2.5rem;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 1s ease 1.2s forwards;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--dark-gold), var(--gold), var(--gold-light));
+            color: var(--night);
+            font-family: 'Cairo', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 8px 32px rgba(212,168,67,0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 14px 40px rgba(212,168,67,0.7);
+        }
+
+        .btn-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-proof {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: rgba(245,237,216,0.8);
+            opacity: 0;
+            animation: fadeUp 1s ease 1.4s forwards;
+        }
+
+        .stars {
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+
+        /* Book Cover */
+        .book-mockup {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.5s forwards;
+        }
+
+        .book-cover {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 550px;
+            transform: perspective(800px) rotateY(-8deg);
+            transition: transform 0.5s ease;
+            border-radius: 8px 20px 20px 8px;
+            overflow: hidden;
+            box-shadow: 
+                -12px 0 0 rgba(0,0,0,0.5), 
+                0 30px 80px rgba(0,0,0,0.7),
+                inset 0 0 0 2px rgba(212,168,67,0.3);
+        }
+
+        .book-cover:hover {
+            transform: perspective(800px) rotateY(-2deg) scale(1.02);
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .book-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: linear-gradient(135deg, var(--red), #C92A3A);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1rem;
+            box-shadow: 0 8px 30px rgba(255,71,87,0.6);
+            animation: pulse 2s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        /* Pain Section */
+        .pain-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent 0%, rgba(255,71,87,0.05) 50%, transparent 100%);
+        }
+
+        .pain-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+            color: var(--red);
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+            text-transform: uppercase;
+        }
+
+        .section-heading {
+            font-family: 'Lateef', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 3rem;
+            line-height: 1.3;
+            text-shadow: 0 0 40px rgba(212,168,67,0.4);
+        }
+
+        .pain-list {
+            list-style: none;
+            margin-bottom: 3rem;
+        }
+
+        .pain-item {
+            background: rgba(255,71,87,0.08);
+            border-right: 4px solid var(--red);
+            padding: 1.8rem 2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .pain-item:hover {
+            background: rgba(255,71,87,0.12);
+            transform: translateX(-8px);
+        }
+
+        .pain-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .pain-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .pain-desc {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: rgba(245,237,216,0.85);
+        }
+
+        .pain-cta {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .pain-cta-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Features */
+        .section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(26,107,107,0.15), rgba(12,26,46,0.6));
+            border: 1px solid rgba(212,168,67,0.18);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(212,168,67,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(212,168,67,0.15);
+            border-color: rgba(212,168,67,0.4);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--gold-light);
+            margin-bottom: 0.8rem;
+        }
+
+        .card-desc {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.9;
+            color: rgba(245,237,216,0.75);
+        }
+
+        /* Chapters Section */
+        .chapters-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent 0%, rgba(26,107,107,0.07) 50%, transparent 100%);
+        }
+
+        .chapters-list {
+            list-style: none;
+            max-width: 900px;
+            margin: 3rem auto 0;
+        }
+
+        .chapter-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(212,168,67,0.1);
+            transition: background 0.3s;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .chapter-item:hover {
+            background: rgba(212,168,67,0.07);
+        }
+
+        .ch-num {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--gold);
+            min-width: 3rem;
+            text-align: center;
+            background: rgba(212,168,67,0.1);
+            border: 2px solid rgba(212,168,67,0.3);
+            border-radius: 50%;
+            width: 3.5rem;
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .ch-img-slot {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(212,168,67,0.3);
+        }
+
+        .ch-img-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            display: block;
+        }
+
+        .ch-content {
+            flex: 1;
+        }
+
+        .ch-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .ch-description {
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            color: rgba(245,237,216,0.7);
+            line-height: 1.6;
+        }
+
+        .ch-icon {
+            font-size: 1.8rem;
+            opacity: 0.7;
+            margin-right: auto;
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+
+        .testimonial {
+            background: linear-gradient(145deg, rgba(26,107,107,0.15), rgba(12,26,46,0.6));
+            border: 1px solid rgba(212,168,67,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .testimonial-text {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: rgba(245,237,216,0.85);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .testimonial-info {
+            flex: 1;
+        }
+
+        .testimonial-name {
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-bottom: 0.2rem;
+        }
+
+        .testimonial-title {
+            font-size: 0.9rem;
+            color: rgba(245,237,216,0.6);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            position: relative;
+            z-index: 1;
+            padding: 8rem 2rem;
+            text-align: center;
+            background: 
+                linear-gradient(135deg, rgba(26,107,107,0.4) 0%, rgba(10,20,40,0.9) 50%, rgba(154,117,32,0.3) 100%),
+                radial-gradient(ellipse at top, rgba(212,168,67,0.15) 0%, transparent 70%);
+        }
+
+        .cta-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cta-urgent {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--red), #C92A3A);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 6px 25px rgba(255,71,87,0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .cta-title {
+            font-family: 'Lateef', serif;
+            font-size: clamp(3rem, 7vw, 5rem);
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 60px rgba(212,168,67,0.4);
+            line-height: 1.2;
+        }
+
+        .cta-description {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            color: white;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            font-weight: 600;
+        }
+
+        .price-box {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(12,26,46,0.7);
+            border: 3px solid rgba(212,168,67,0.5);
+            border-radius: 25px;
+            padding: 2.5rem 4rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 50px rgba(212,168,67,0.3);
+        }
+
+        .price-label {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--teal-light);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: rgba(245,237,216,0.4);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .current-price {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 900;
+            font-size: 5rem;
+            color: var(--gold);
+            line-height: 1;
+            text-shadow: 0 0 30px rgba(212,168,67,0.6);
+        }
+
+        .price-currency {
+            font-size: 1.8rem;
+            vertical-align: super;
+        }
+
+        .offer-badge {
+            background: linear-gradient(135deg, #FF6B6B, #FF4757);
+            color: white;
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-top: 0.8rem;
+            box-shadow: 0 6px 20px rgba(255,71,87,0.5);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn-large {
+            font-size: 1.5rem;
+            padding: 1.5rem 4rem;
+        }
+
+        .guarantee {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+            color: rgba(245,237,216,0.8);
+            background: rgba(45,122,94,0.15);
+            border: 1px solid rgba(45,122,94,0.3);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .guarantee-icon {
+            font-size: 2rem;
+            color: var(--emerald);
+        }
+
+        .timer-box {
+            background: rgba(255,71,87,0.15);
+            border: 2px solid var(--red);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .timer-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .timer-item {
+            text-align: center;
+        }
+
+        .timer-value {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--red);
+            display: block;
+            line-height: 1;
+        }
+
+        .timer-unit {
+            font-size: 0.9rem;
+            color: rgba(245,237,216,0.7);
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(212,168,67,0.15);
+        }
+
+        .footer-logo {
+            font-family: 'Lateef', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+            text-shadow: 0 0 20px rgba(212,168,67,0.4);
+        }
+
+        .footer-copy {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: rgba(245,237,216,0.5);
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-text {
+                text-align: center;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .book-cover {
+                max-width: 350px;
+                height: 480px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .lantern-left,
+            .lantern-right {
+                width: 60px;
+            }
+
+            .section {
+                padding: 4rem 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chapter-item {
+                flex-wrap: wrap;
+            }
+
+            .ch-img-slot {
+                width: 100%;
+                height: 200px;
+            }
+
+            .cta-section {
+                padding: 5rem 1.5rem;
+            }
+
+            .btn-large {
+                font-size: 1.2rem;
+                padding: 1.2rem 2.5rem;
+            }
+
+            .price-box {
+                padding: 2rem 2.5rem;
+            }
+
+            .current-price {
+                font-size: 3.5rem;
+            }
+
+            .timer {
+                gap: 1rem;
+            }
+
+            .timer-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Geometric pattern -->
+<div class="pattern-bg"></div>
+
+<!-- Stars canvas -->
+<canvas id="stars-canvas"></canvas>
+
+<!-- Header -->
+<header>
+    <div class="header-content">
+        <div class="logo">
+            <span class="crescent-icon">🌙</span>
+            <span>سفرة رمضان</span>
+        </div>
+    
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <svg class="crescent-large" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 10 C44.77 10 10 44.77 10 100 C10 155.23 44.77 190 100 190
+                 C75 175 58 140 58 100 C58 60 75 25 100 10 Z"
+              fill="var(--gold)" opacity="0.8"/>
+        <circle cx="140" cy="55" r="6" fill="var(--gold)" opacity="0.6"/>
+        <circle cx="155" cy="35" r="4" fill="var(--gold)" opacity="0.4"/>
+    </svg>
+
+    <svg class="lantern-left" viewBox="0 0 60 140" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="0" x2="30" y2="18" stroke="#D4A843" stroke-width="2"/>
+        <path d="M18 18 L42 18 L48 40 L48 95 L42 118 L18 118 L12 95 L12 40 Z" fill="rgba(212,168,67,0.12)" stroke="#D4A843" stroke-width="1.2"/>
+        <ellipse cx="30" cy="65" rx="8" ry="10" fill="rgba(255,220,80,0.3)"/>
+    </svg>
+
+    <svg class="lantern-right" viewBox="0 0 60 140" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="0" x2="30" y2="18" stroke="#2E9E9E" stroke-width="2"/>
+        <path d="M18 18 L42 18 L48 40 L48 95 L42 118 L18 118 L12 95 L12 40 Z" fill="rgba(46,158,158,0.12)" stroke="#2E9E9E" stroke-width="1.2"/>
+        <ellipse cx="30" cy="65" rx="8" ry="10" fill="rgba(46,158,158,0.3)"/>
+    </svg>
+
+    <div class="hero-content">
+        <div class="hero-text">
+          
+            <h1 class="hero-title">سفرة رمضان</h1>
+            <p class="hero-subtitle">خلّي رمضان السنة دي مختلف عن كل سنة فاتت!</p>
+            
+            <div class="hero-pain">
+                <strong>تعبت من نفس الأكل كل سنة؟</strong> صح؟ السفرة بقت مملة، والعيلة بقوا زهقانين من نفس الطبخات؟
+            </div>
+
+            <p class="hero-solution">
+                <strong>احنا فهمناك...</strong> عشان كده جمعنالك أكتر من <strong>١٠٠ وصفة</strong> مختلفة وجديدة، 
+                تخليك كل يوم تقدّم حاجة مبتكرة ومختلفة. من أول الشوربة لحد الحلويات، <strong>كله موجود وكله مجرّب!</strong>
+            </p>
+
+            <div class="hero-cta">
+                <a href="#order" class="btn-primary btn-large">
+                    <span class="btn-text">اطلب الكتاب دلوقتي 🚀</span>
+                </a>
+            </div>
+
+            <div class="social-proof">
+          
+            </div>
+        </div>
+
+        <div class="book-mockup">
+            <div class="book-badge">خصم ٥٠٪</div>
+            <div class="book-cover">
+                <img src="https://i.ibb.co/w9dBD8C/image.png" alt="غلاف كتاب سفرة رمضان" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pain Section -->
+<section class="pain-section">
+    <div class="pain-container">
+        <p class="section-label reveal">⚠️ المشكلة الحقيقية</p>
+        <h2 class="section-heading reveal">صح ولا أنا غلطان؟</h2>
+
+        <ul class="pain-list">
+            <li class="pain-item reveal">
+                <span class="pain-icon">😫</span>
+                <h3 class="pain-title">كل سنة نفس الأكل الممل</h3>
+                <p class="pain-desc">
+                    شوربة، ملوخية، محشي، كنافة... نفس الدورة كل يوم. العيلة بقت مش مبسوطة زي زمان، 
+                    والأكل بقى عادي وممل. <strong>عايز تجديد!</strong>
+                </p>
+            </li>
+
+            <li class="pain-item reveal">
+                <span class="pain-icon">😰</span>
+                <h3 class="pain-title">مش عارف أطبخ إيه النهاردة؟</h3>
+                <p class="pain-desc">
+                    كل يوم نفس السؤال: "هنطبخ إيه؟" وساعات تقعد نص ساعة على جوجل تدور على وصفات، 
+                    وفي الآخر ماتلاقيش حاجة مناسبة. <strong>الوقت ضايع!</strong>
+                </p>
+            </li>
+
+            <li class="pain-item reveal">
+                <span class="pain-icon">🤦‍♀️</span>
+                <h3 class="pain-title">الوصفات من النت مش بتنجح</h3>
+                <p class="pain-desc">
+                    جربت وصفة من اليوتيوب أو الفيسبوك وطلعت غلط؟ المقادير ناقصة، الخطوات مش واضحة، 
+                    والأكل طلع كارثة! <strong>والعيلة مستنية...</strong>
+                </p>
+            </li>
+
+            <li class="pain-item reveal">
+                <span class="pain-icon">⏰</span>
+                <h3 class="pain-title">مفيش وقت للطبخ المعقّد</h3>
+                <p class="pain-desc">
+                    ما بين الشغل والبيت والمهام، مين عنده وقت يقعد ساعتين في المطبخ؟ 
+                    عايز وصفات <strong>سريعة وسهلة</strong> بس نتيجتها تبهر!
+                </p>
+            </li>
+        </ul>
+
+        <div class="pain-cta">
+            <p class="pain-cta-text reveal">
+                لو حسيت بأي حاجة من دي... يبقى <strong>الكتاب ده ليك!</strong>
+            </p>
+            <a href="#order" class="btn-primary btn-large reveal">
+               
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="section">
+    <p class="section-label reveal" style="color: var(--gold);">✨ الحل الكامل</p>
+    <h2 class="section-heading reveal">ليه سفرة رمضان هيغير حياتك؟</h2>
+
+    <div class="cards-grid">
+        <div class="card reveal">
+            <div class="card-icon">📖</div>
+            <div class="card-title">١٠٠+ وصفة مش هتلاقيها بره</div>
+            <div class="card-desc">مش وصفات عادية، دي وصفات مجرّبة ومضمونة، ومتنوعة بشكل جنوني من الفطار للسحور</div>
+        </div>
+
+        <div class="card reveal">
+            <div class="card-icon">✅</div>
+            <div class="card-title">كل خطوة مشروحة بالتفصيل</div>
+            <div class="card-desc">مش هتتوه! كل وصفة فيها الخطوات بالترتيب والمقادير بالظبط، حتى لو أول مرة تطبخ</div>
+        </div>
+
+        <div class="card reveal">
+            <div class="card-icon">⚡</div>
+            <div class="card-title">وصفات سريعة لو مستعجل</div>
+            <div class="card-desc">معظم الوصفات ماتاخدش أكتر من ٣٠ دقيقة، مناسبة للأيام المزدحمة والطوارئ</div>
+        </div>
+
+        <div class="card reveal">
+            <div class="card-icon">💪</div>
+            <div class="card-title">خيارات صحية للي بيهتموا</div>
+            <div class="card-desc">عندك حد في البيت عامل دايت؟ ولا عنده حساسية؟ الكتاب فيه بدائل صحية لكل حاجة</div>
+        </div>
+
+        <div class="card reveal">
+            <div class="card-icon">🎉</div>
+            <div class="card-title">حلويات تخلي الكل يتكلم عنك</div>
+            <div class="card-desc">حلويات شرقية وغربية وباردة، مش عادية خالص، هتخلي الضيوف ميمشوش من عندك</div>
+        </div>
+
+        <div class="card reveal">
+            <div class="card-icon">📱</div>
+            <div class="card-title">معاك على موبايلك في ثانية</div>
+            <div class="card-desc">خد الكتاب PDF على طول بعد الشراء، استخدمه وأنت في المطبخ من الموبايل أو التابلت</div>
+        </div>
+    </div>
+</section>
+
+<!-- Chapters Section -->
+<section class="chapters-section" id="chapters">
+    <div style="max-width:1200px;margin:0 auto">
+        <p class="section-label reveal" style="color: var(--teal-light);">📚 المحتوى بالتفصيل</p>
+        <h2 class="section-heading reveal">إيه اللي جوا الكتاب بالظبط؟</h2>
+
+        <ul class="chapters-list">
+            <li class="chapter-item reveal">
+                <span class="ch-num">١</span>
+                <div class="ch-img-slot">
+                    <img src="https://i.ibb.co/6R4rM9gj/image.jpg" alt="الشوربات والمقبلات" />
+                </div>
+                <div class="ch-content">
+                    <div class="ch-title">الشوربات والمقبلات</div>
+                    <div class="ch-description">١٥ وصفة متنوعة تبدأ بيها سفرتك بداية صح، من الشوربات الساقعة للمقبلات اللذيذة</div>
+                </div>
+                <span class="ch-icon">🍲</span>
+            </li>
+
+            <li class="chapter-item reveal">
+                <span class="ch-num">٢</span>
+                <div class="ch-img-slot">
+                    <img src="https://i.ibb.co/Xxy7kyDs/image.jpg" alt="الأطباق الرئيسية" />
+                </div>
+                <div class="ch-content">
+                    <div class="ch-title">الأطباق الرئيسية</div>
+                    <div class="ch-description">٣٥ وصفة متنوعة من اللحوم والفراخ والسمك، كل يوم طبق مختلف تماماً</div>
+                </div>
+                <span class="ch-icon">🍖</span>
+            </li>
+
+            <li class="chapter-item reveal">
+                <span class="ch-num">٣</span>
+                <div class="ch-img-slot">
+                    <img src="https://i.ibb.co/1YktNrpk/image.jpg" alt="المعجنات والفطائر" />
+                </div>
+                <div class="ch-content">
+                    <div class="ch-title">المعجنات والفطائر</div>
+                    <div class="ch-description">٢٠ وصفة من السمبوسك والفطاير والمعجنات، اللي بتخلص على طول</div>
+                </div>
+                <span class="ch-icon">🥟</span>
+            </li>
+
+            <li class="chapter-item reveal">
+                <span class="ch-num">٤</span>
+                <div class="ch-img-slot">
+                    <img src="https://i.ibb.co/84jBMk5k/image.jpg" alt="السلطات والمازات" />
+                </div>
+                <div class="ch-content">
+                    <div class="ch-title">السلطات والمازات</div>
+                    <div class="ch-description">١٢ وصفة سلطات منعشة ومازات شهية تكمّل السفرة</div>
+                </div>
+                <span class="ch-icon">🥗</span>
+            </li>
+
+            <li class="chapter-item reveal">
+                <span class="ch-num">٥</span>
+                <div class="ch-img-slot">
+                    <img src="https://i.ibb.co/tPZzQpNr/image.jpg" alt="الحلويات الرمضانية" />
+                </div>
+                <div class="ch-content">
+                    <div class="ch-title">الحلويات الرمضانية</div>
+                    <div class="ch-description">٢٥ وصفة حلويات محدش هيصدق إنك أنت اللي عاملها في البيت</div>
+                </div>
+                <span class="ch-icon">🍰</span>
+            </li>
+
+            <li class="chapter-item reveal">
+                <span class="ch-num">٦</span>
+                <div class="ch-img-slot">
+                    <img src="https://i.ibb.co/5hKKt9BV/image.jpg" alt="المشروبات والعصائر" />
+                </div>
+                <div class="ch-content">
+                    <div class="ch-title">المشروبات والعصائر</div>
+                    <div class="ch-description">١٥ وصفة عصاير طبيعية ومشروبات رمضانية تروّي العطش</div>
+                </div>
+                <span class="ch-icon">🥤</span>
+            </li>
+
+            <li class="chapter-item reveal">
+                <span class="ch-num">٧</span>
+                <div class="ch-img-slot">
+                    <img src="https://i.ibb.co/93fjqXXy/image.jpg" alt="وجبات السحور" />
+                </div>
+                <div class="ch-content">
+                    <div class="ch-title">وجبات السحور</div>
+                    <div class="ch-description">١٠ أفكار سحور سريعة ومغذية تخليك تصوم براحة</div>
+                </div>
+                <span class="ch-icon">🌅</span>
+            </li>
+        </ul>
+    </div>
+</section>
+
+
+
+<!-- CTA Section -->
+<section class="cta-section" id="order">
+    <div class="cta-content">
+        <div class="cta-urgent reveal">⚡ العرض هينتهي بعد ٤٨ ساعة بس!</div>
+        
+        <h2 class="cta-title reveal">خد قرارك دلوقتي!</h2>
+        <p class="cta-description reveal">
+            ماتخليش رمضان السنة دي يعدي عادي زي كل سنة... 
+            <strong>غيّر واستمتع بسفرة مختلفة!</strong>
+        </p>
+
+        <div class="timer-box reveal">
+            <div class="timer-label">⏰ العرض ينتهي خلال:</div>
+            <div class="timer">
+                <div class="timer-item">
+                    <span class="timer-value" id="hours">23</span>
+                    <span class="timer-unit">ساعة</span>
+                </div>
+                <div class="timer-item">
+                    <span class="timer-value" id="minutes">45</span>
+                    <span class="timer-unit">دقيقة</span>
+                </div>
+                <div class="timer-item">
+                    <span class="timer-value" id="seconds">12</span>
+                    <span class="timer-unit">ثانية</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="price-box reveal">
+            <span class="price-label">السعر الأصلي</span>
+            <div class="original-price">٤٩٩ جنيه</div>
+            <div class="current-price">
+                <span class="price-currency">ج.م</span> ٢٤٩
+            </div>
+            <div class="offer-badge">🎁 وفّر ٢٥٠ جنيه - خصم ٥٠٪</div>
+        </div>
+
+        <div class="cta-buttons reveal">
+            <button class="btn-primary btn-large" onclick="alert('جاري التوجيه لصفحة الدفع الآمنة...')">
+                <span class="btn-text">اشتري الكتاب دلوقتي 🔥</span>
+            </button>
+        </div>
+
+        <div class="guarantee reveal">
+         
+        </div>
+
+        <p style="margin-top:2.5rem;font-size:1.05rem;color:rgba(245,237,216,0.7);max-width:700px;margin-left:auto;margin-right:auto;line-height:1.8;" class="reveal">
+            <strong>ملحوظة:</strong> الكتاب رقمي (PDF) هيوصلك على إيميلك في خلال دقيقة من الشراء. 
+            تقدر تستخدمه على الموبايل، التابلت، أو الكمبيوتر براحتك.
+        </p>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-logo">🌙 سفرة رمضان</div>
+    <p class="footer-copy">© ١٤٤٦ هـ — جميع الحقوق محفوظة • رمضان كريم وكل سنة وأنتم طيبين 🤲</p>
+</footer>
+
+<script>
+/* Stars Canvas */
+(function(){
+    const canvas = document.getElementById('stars-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, stars = [];
+
+    function resize(){
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
+
+    function initStars(){
+        stars = [];
+        const count = Math.floor(W * H / 3500);
+        for(let i = 0; i < count; i++){
+            stars.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                r: Math.random() * 1.6 + 0.3,
+                o: Math.random(),
+                s: Math.random() * 0.012 + 0.003,
+                d: Math.random() < 0.5 ? 1 : -1,
+                gold: Math.random() < 0.15
+            });
+        }
+    }
+
+    function draw(){
+        ctx.clearRect(0, 0, W, H);
+        stars.forEach(s => {
+            s.o += s.s * s.d;
+            if(s.o > 1 || s.o < 0.1) s.d *= -1;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            if(s.gold){
+                ctx.fillStyle = `rgba(212,168,67,${s.o})`;
+            } else {
+                ctx.fillStyle = `rgba(240,220,180,${s.o * 0.7})`;
+            }
+            ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    }
+
+    resize();
+    initStars();
+    draw();
+    window.addEventListener('resize', () => { resize(); initStars(); });
+})();
+
+/* Countdown Timer */
+(function(){
+    function updateTimer() {
+        const now = new Date();
+        const end = new Date(now.getTime() + 48 * 60 * 60 * 1000);
+        const diff = end - now;
+        
+        if(diff > 0) {
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+    }
+    
+    updateTimer();
+    setInterval(updateTimer, 1000);
+})();
+
+/* Scroll Reveal */
+(function(){
+    const els = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if(e.isIntersecting){
+                e.target.classList.add('visible');
+                io.unobserve(e.target);
+            }
+        });
+    }, {threshold: 0.12});
+    els.forEach(el => io.observe(el));
+})();
+
+/* Parallax */
+window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    const crescent = document.querySelector('.crescent-large');
+    if(crescent) crescent.style.transform = `translateY(${y * 0.08}px) rotate(-5deg)`;
+});
+
+/* Smooth Scroll */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+</script>
+
+</body>
+
+</html>
